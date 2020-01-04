@@ -9,42 +9,51 @@ playing = True
 
 class Card:
     
-    def __init__(self):
-        pass
+    def __init__(self, suit, rank):
+        self.suit = suit
+        self.rank = rank
     
     def __str__(self):
-        pass
+        return f'{self.rank} of {self.suit}'
 
 
 class Deck:
     
     def __init__(self):
-        self.deck = []
+        self.deck = []  # start with an empty list
         for suit in suits:
             for rank in ranks:
-                pass
+                card_now = Card(suit, rank)
+                self.deck.append(str(card_now))
     
     def __str__(self):
-        pass
+        return str(self.deck)
 
     def shuffle(self):
         random.shuffle(self.deck)
         
     def deal(self):
-        pass
+        one_card = self.deck.pop()
+        return one_card
 
 
 class Hand:
     def __init__(self):
-        self.cards = []
-        self.value = 0
-        self.aces = 0 
+        self.cards = []  # start with an empty list
+        self.value = 0   # start with zero value
+        self.aces = 0    # keep track of aces
     
-    def add_card(self,card):
-        pass
+    def add_card(self,card): #card will be the dealt card from the Deck.deal()
+        self.card.append(card)
+        self.value += values[card.rank]
+        
+        if card.rank == 'Ace':
+            self.aces += 1
     
     def ace_adjustment(self):
-        pass
+        while self.value > 21 and self.aces > 0:
+            self.value -= 10
+            self.aces -= 1
 
 
 class Chips:
@@ -69,7 +78,7 @@ def hit(deck,hand):
     pass
 
 def hit_or_stand(deck,hand):
-    global playing  # to control an upcoming while loop
+    global playing  
     
     pass
 
