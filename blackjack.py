@@ -44,7 +44,7 @@ class Hand:
         self.aces = 0    # keep track of aces
     
     def add_card(self,card): #card will be the dealt card from the Deck.deal()
-        self.card.append(card)
+        self.cards.append(card)
         self.value += values[card.rank]
         
         if card.rank == 'Ace':
@@ -59,48 +59,81 @@ class Hand:
 class Chips:
     
     def __init__(self):
-        self.total = 100 
+        self.total = 100
         self.bet = 0
         
     def win_bet(self):
-        pass
+        self.total += self.bet
     
     def lose_bet(self):
-        pass
+        self.total -= self.bet
 
 
 def take_bet():
-    
-    pass
+    while True:
+        try:
+            player_bet = int(input("Please enter the value of the bet you would like to place:"))
+        except:
+            print("An error has occurred, please ensure value entered is a valid number.")
+        else:
+            print(f"Thank you, your bet is {player_bet}")
+            break
+    return player_bet
 
 def hit(deck,hand):
+    hand.add_card(deck.deal())
     
-    pass
+    while hand.value > 21 and hand.aces > 0:
+        hand.ace_adjustment()
+    
+    return hand
 
 def hit_or_stand(deck,hand):
-    global playing  
+    global playing
+    playing = True
     
-    pass
+    while playing:
+        player_choice = input('Please choose if you would like to hit or stand')
+        if player_choice.upper() == "HIT":
+            hit(deck, hand)
+            if hand.value > 21:
+                playing = False
+        elif player_choice.upper() == "STAND":
+            playing = False
+        else:
+            print("Invalid choice, available choices include 'hit' and 'stand'")
+     return hand
 
 def show_some(player,dealer):
     
-    pass
+    print(f'The player has the following cards: {player}')
+    print(f'The dealer has a {dealer[1]} and a hidden card.')
     
 def show_all(player,dealer):
     
-    pass
+    print(f'The player has the following cards:\n{player}')
+    print(f'The dealer has the following cards:\n{dealer}')
 
-def player_bust():
-    pass
+def player_busts(player, chips):
+    if player.value > 21:
+        print("Player has busted")
+        chips.lose_bet()
 
-def player_win():
-    pass
+def player_wins(player, dealer, chips):
+    if player.value > dealer.value:
+        print("Player wins!")
+        chips.win_bet()
 
-def dealer_bust():
-    pass
+def dealer_busts(dealer, chips):
+    if dealer.value > 21:
+        print("Dealer has busted")
+        chips.win_bet()
     
-def dealer_win():
-    pass
+def dealer_wins(player, dealer, chips):
+    if dealer.value > player.value:
+        print("Dealer wins!")
+        chips.lose_bet()
     
-def push():
-    pass
+def push(player, dealer):
+    if player.value = dealer.value:
+        print("Same value hands, PUSH")
